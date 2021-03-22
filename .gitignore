@@ -1,0 +1,6 @@
+node_modules/
+.npm
+.env
+firebase-config.js
+uploads/
+package-lock.json

@@ -1,115 +1,222 @@
-# revie
-Revie is a hypothetical platform where users can sign up with their basic information and post reviews about apartments they've previously lived in.
-
 # Revie
 
-  Welcome to the API documentation for Revie. This API allows your to create/post reviews about apartments, view all reviews, view a review using its ID, mark a review as helpful, sort reviews based on most helpful or most recent reviews, and delete a review using its ID.
+This serves as a use case document for the Revie API. This API can allow you to sign up as a user, post reviews about apartments, view all reviews, view a review using its ID, mark a review as helpful, sort reviews based on most helpful or recent reviews, and delete a review using its ID.
 
-## API allowable actions
+## API possible endpoints
+
+#### Key
+
+##### {{URL}} should be replaced by
+
+##### Local -- localhost://5000
+
+## OR
+
+##### Heroku --
 
 ### Create a review
-  To create a review make a POST request to 
-  ```
-  https://revie-api.herokuapp.com/create-review
-  ```
-  and pass the review data as form data to the body property in your request
-  The form data must be structured as follows
-  
-  | key | value |
-  | ------------- | ------------- |
-  | landlords | review of the apartment landlord(s) in string data type |
-  | environment | review of the apartment environment in string data type |
-  | amenities | review of the apartment amenities in string data type |
-  | location | address of the apartment |
-  | [any media file] | [blob data of media file showcasing the apartment] |
-  
-  One or more media files can be added to the form data.
-  If the review has been created successfully, you will get the string response shown below with status code 200
-  ```
-  review has been successfully created
-  ```
-  
-### View all reviews
-To view all reviews make a GET request to 
+
+To create a review, simply make a POST request with Postman or any other API client to
+
 ```
-https://revie-api.herokuapp.com/all-reviews
+{{URL}}/api/review/new
 ```
-An array of JavaScript objects is returned in JSON format as the api response. An example format is shown below
+
+and pass the review data as raw/form data to the body property in the request
+The data structure is shown below
+
+#### landlords: String
+
+#### environment: String
+
+#### amenities: String
+
+#### location: String
+
+#### media file(optional): binary file(video or images)
+
+Note that you can upload more than one media file in the form data.
+
+Example Response: (Status 201 Created)
+
 ```
+{
+  message: 'Review has been created'
+}
+```
+
+### Get all reviews
+
+To get all reviews, simply make a GET request with Postman or any other API client to
+
+```
+{{URL}}/api/reviews/all
+```
+
+```
+An array of JavaScript objects is returned in JSON format for a successful request, as shown below
+```
+
+```
+Example Response: (Status 200 OK)
 [
     {
-        "id": "9feade87-fb3c-4fea-96a2-67e0e29c04e1",
+        "id": "ca1186d1-79d9-41b3-a08c-ed4f50b7dfe6",
         "data": {
-            "landlords": "dummy",
-            "amenities": "dummy",
-            "location": "dummy",
+            "environment": "Island",
+            "location": "LA",
+            "landlords": "Sule",
+            "timestamp": "2021-03-22T14:29:46.661Z",
+            "amenities": "Security and Power",
             "media": [
                 {
-                    "id": "upload_1f5f890b680b061de1befef0e5804924.jpg",
-                    "url": "https://storage.googleapis.com/revie-7ea35.appspot.com/upload_1f5f890b680b061de1befef0e5804924.jpg"
+                    "id": "upload_1.mp4",
+                    "url": "Firebase-URL"
                 }
             ],
-            "environment": "dummy",
-            "timestamp": "2021-01-06T17:27:06.867Z",
+            "helpful": 1
+        }
+    },
+    {
+        "id": "f782b6d8-118a-43c1-acdd-f7e9a51b6765",
+        "data": {
+            "amenities": "Water and Power",
+            "landlords": "Maina",
+            "environment": "Mainland",
+            "location": "LA",
+            "media": [
+                {
+                    "id": "upload_2.mp4",
+                    "url": "Firebase-URL"
+                }
+            ],
+            "timestamp": "2021-03-22T14:22:58.672Z",
             "helpful": 0
         }
     }
 ]
 ```
-If you want to get reviews sorted based on most helpful, make a GET request to this url
+
+For reviews sorted based on most helpful, add query parameters as shown below
+
 ```
-https://revie-api.herokuapp.com/all-reviews?organize=helpful
+{{URL}}/api/reviews/all?organize=helpful
 ```
-If you want to get reviews sorted based on most recent, make a GET request to this url
+
+For reviews sorted based on most recent, add query parameters as shown below
+
 ```
-https://revie-api.herokuapp.com/all-reviews?organize=recent
+{{URL}}/api/reviews/all?organize=recent
 ```
 
 ### Get one review
-To get one review, make a GET request to the this url
+
+To get a single review, simply make a GET request with ID paarameters on Postman or any other API client to
+
 ```
-https://revie-api.herokuapp.com/one-review
+{{URL}}/api/review/:id
 ```
-and pass a key-value object to the body property in your request. The object should contain an `id` property which contains the ID of the review being requested.
-An example of the api response is shown below
+
+The route should contain an `id` property which is the ID of the review being requested.
+
+Example Request
+
+```
+{{URL}}/api/review/d060d146-b6d5-42b1-9a3b-01632d818594
+
+```
+
+Example Response(Status 200 OK)
+
 ```
 {
-    "landlords": "dummy",
-    "timestamp": "2021-01-06T17:27:06.867Z",
-    "amenities": "dummy",
-    "environment": "dummy",
-    "location": "dummy",
-    "media": [
-        {
-            "url": "https://storage.googleapis.com/revie-7ea35.appspot.com/upload_1f5f890b680b061de1befef0e5804924.jpg",
-            "id": "upload_1f5f890b680b061de1befef0e5804924.jpg"
-        }
-    ],
-    "helpful": 0
+    "media": [],
+    "amenities": "Water and Power",
+    "landlords": "Maina",
+    "helpful": 0,
+    "environment": "Mainland",
+    "timestamp": "2021-03-22T14:13:22.674Z",
+    "location": "LA"
 }
 ```
 
 ### Mark as helpful
-To mark a review as helpful, make a PATCH request to 
+
+To mark a review as helpful, simply make a PATCH request to
+
 ```
-https://revie-api.herokuapp.com/helpful-review
+{{URL}}/api/review/:id/helpful
 ```
-and pass a key-value object to the body property in your request. The object should contain an `id` property which contains the ID of the review being marked.
-If the review has been marked helpful successfully, you will get the string response shown below with status code 200
+
+The route should contain an `id` property which is the ID of the review being requested.
+
+Example Response: (Status 200 OK)
+
 ```
-review has been successfully marked helpful
+{
+    "message": "Your review has been marked helpful"
+}
 ```
 
 ### Delete a review
 
-To delete a review, make a DELETE request to 
+To delete a review, make a DELETE request to
+
 ```
-https://revie-api.herokuapp.com/delete-review
+{{URL}}/api/review/:id/delete
 ```
-and pass a key-value object to the body property in your request. The object should contain an `id` property which contains the ID of the review being marked.
-If the review has been deleted successfully, you will get the string response shown below with status code 200
-```
-review has been successfully deleted
+
+The route should contain an `id` property which is the ID of the review being requested.
+
+Example Response: (Status 204 No Content)
+
 ```
 
 
+```
+
+### Sign up as a user
+
+To sign up, make a POST request to
+
+```
+{{URL}}/api/users/signup
+```
+
+Example Request
+{
+"email": "email here",
+"name": "name here",
+"password": password here
+}
+
+Example Response: (Status 201 Created)
+
+```
+{
+    "message": "User created successfully"
+}
+
+```
+
+### Sign in as a user(passwordless)
+
+To sign up, make a POST request to
+
+```
+{{URL}}/api/users/login
+```
+
+Example Request
+{
+"email": "email here"
+}
+
+Example Response: (Status 200 OK)
+
+```
+{
+    "token": "token to be used for a session"
+}
+
+```
