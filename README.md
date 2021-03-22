@@ -23,7 +23,7 @@ To create a review, simply make a POST request with Postman or any other API cli
 ```
 
 and pass the review data as raw/form data to the body property in the request
-The data structure is shown below
+###### The data structure is shown below
 
 #### landlords: String
 
@@ -44,7 +44,7 @@ Example Response: (Status 201 Created)
   message: 'Review has been created'
 }
 ```
-![Test1](https://github.com/jobafash/revie/blob/main/images/Screenshot from 2021-03-22 15-27-52.png)
+![Test1](https://github.com/jobafash/revie/blob/main/images/test1.png)
 
 ### Get all reviews
 
@@ -57,9 +57,8 @@ To get all reviews, simply make a GET request with Postman or any other API clie
 ```
 An array of JavaScript objects is returned in JSON format for a successful request, as shown below
 ```
-
-```
 Example Response: (Status 200 OK)
+```
 [
     {
         "id": "ca1186d1-79d9-41b3-a08c-ed4f50b7dfe6",
