@@ -12,7 +12,7 @@ This serves as a use case document for the Revie API. This API can allow you to 
 
 ## OR
 
-##### Heroku --
+##### Heroku -- https://revie2.herokuapp.com
 
 ### Create a review
 
